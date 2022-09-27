@@ -20,6 +20,6 @@ from tasks import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('sigup/', views.sigup, name='sigup')
-
+    path('sigup/', views.sigup, name='sigup'),
+    path('tasks/', views.tasks, name='tasks'),
 ]
