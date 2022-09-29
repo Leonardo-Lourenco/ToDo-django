@@ -22,4 +22,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('sigup/', views.sigup, name='sigup'),
     path('tasks/', views.tasks, name='tasks'),
+    
 ]
