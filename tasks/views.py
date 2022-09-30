@@ -1,16 +1,17 @@
 from django.shortcuts import render, redirect
 # classe para formulários
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm # 1 serve para criar user o outro para logar
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 # para verificar se o user está com a senha correta
-from django.contrib.auth import login
+from django.contrib.auth import login, logout, authenticate
 
 
-# Create your views here.
+# Home do Projeto.
 def home(request):
     return render(request,'home.html')
 
+#Cadastar uma pessoa
 def sigup(request):
 
     if request.method == 'GET':
@@ -44,9 +45,35 @@ def sigup(request):
                     
                     } ) 
 
-    
+# Tarefas  
 def tasks(request):
     return render(request,'tasks.html')
 
+# Para sair
+def sair(request):
+    logout (request)  # OBS: logout , importei lá no inicio
+    return redirect('home')
+
+#Quando a pessoa já tem conta ela loga
+def sigin(request):
+    if request.method == 'GET':
+        return render(request, 'sigin.html', {
+        'form' : AuthenticationForm
+        })
+
+    else:    
+        user = authenticate(
+            request, username=request.POST['username'], password=request.POST['password'])
+
+        if user is None:
+            return render(request, 'sigin.html', {
+                 'form' : AuthenticationForm,
+                 'error' : 'Usuário ou Senha incorretos'
+            })
+
+        else: 
+            login(request, user)
+            return redirect('tasks')    
 
 
+        

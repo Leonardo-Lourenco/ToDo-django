@@ -28,15 +28,28 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sigup">Logar</a>
-            </li>
+          
             <li class="nav-item">
                 <a class="nav-link" href="/tasks">Tarefas</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Sair</a>
-            </li>
+            
+            {% if user.is_authenticated %}
+
+              <li class="nav-item">
+                <a class="nav-link" href="/sair">Sair</a>
+              </li>
+
+            {% else %}
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/sigup">Cadastrar</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/sigin">Logar</a>
+              </li>
+
+            {% endif %}
             
           </ul>
 
