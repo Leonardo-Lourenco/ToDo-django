@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 # para verificar se o user está com a senha correta
 from django.contrib.auth import login, logout, authenticate
+# importando o meu arquivo form.py
+from .forms import TaskForm  
 
 
 # Home do Projeto.
@@ -76,4 +78,8 @@ def sigin(request):
             return redirect('tasks')    
 
 
-        
+ # Criando as Tarefas
+def criando_tarefa(request):
+    return render(request,'criando_tarefa.html', {
+        'form' : TaskForm
+    })       
