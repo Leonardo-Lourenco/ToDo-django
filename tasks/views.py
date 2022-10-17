@@ -1,3 +1,4 @@
+from http.client import ImproperConnectionState
 from django.shortcuts import render, redirect
 # classe para formulários
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm # 1 serve para criar user o outro para logar
@@ -5,8 +6,10 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 # para verificar se o user está com a senha correta
 from django.contrib.auth import login, logout, authenticate
+from django.db import IntegrityError
+
 # importando o meu arquivo form.py
-from .forms import TaskForm  
+from .forms import TaskForm
 
 
 # Home do Projeto.
@@ -80,6 +83,29 @@ def sigin(request):
 
  # Criando as Tarefas
 def criando_tarefa(request):
-    return render(request,'criando_tarefa.html', {
-        'form' : TaskForm
-    })       
+
+    if request.method == 'GET':
+            return render(request,'criando_tarefa.html', {
+            'form' : TaskForm
+
+       }) 
+
+    else:
+
+        try:
+            form = TaskForm(request.POST)
+            new_task = form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
+            return redirect('tasks')
+
+        except ValueError:
+
+             return render(request,'criando_tarefa.html', {
+            'form' : TaskForm,
+            'error': 'Favor inserir dados validos'  
+             })
+        
+           
+          
+    
