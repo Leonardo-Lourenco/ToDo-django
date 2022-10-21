@@ -7,9 +7,11 @@ from django.http import HttpResponse
 # para verificar se o user está com a senha correta
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-
 # importando o meu arquivo form.py
 from .forms import TaskForm
+# importando o Task base de dados lá do models.py
+from .models import Task
+
 
 
 # Home do Projeto.
@@ -50,9 +52,11 @@ def sigup(request):
                     
                     } ) 
 
-# Tarefas  
+# Exibir as Tarefas  
 def tasks(request):
-    return render(request,'tasks.html')
+    # tasks = Task.objects.all()  neste exemplo pegas as tarefas de todos os usuários
+    tasks = Task.objects.filter(user=request.user) # pega a tarefa do usuário logado
+    return render(request, 'tasks.html', { 'tasks' : tasks })
 
 # Para sair
 def sair(request):

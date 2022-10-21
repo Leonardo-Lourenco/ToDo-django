@@ -6,4 +6,37 @@
 
     <h1> Tarefas </h1>
 
+    <ul>
+
+        {% for task in tasks %}
+           <br>
+            {% if task.important %}
+
+                <strong> {{task.title}} </strong>
+                
+                <br>
+
+                <p> {{task.describe}} </p>
+
+            {% else %}
+
+
+                <li>{{task.title}}</li>
+
+               
+
+                <p> {{ task.describe}}</p>
+
+                
+
+            {% endif %}    
+
+           
+
+            
+
+        {% endfor %}
+
+    </ul>
+
 {% endblock %}
