@@ -9,30 +9,38 @@
     <ul>
 
         {% for task in tasks %}
-           <br>
-            {% if task.important %}
-
-                <strong> {{task.title}} </strong>
-                
-                <br>
-
-                <p> {{task.describe}} </p>
-
-            {% else %}
-
-
-                <li>{{task.title}}</li>
-
-               
-
-                <p> {{ task.describe}}</p>
-
-                
-
-            {% endif %}    
-
            
+            <li>
+                
+                <a href="{% url 'task_detalhe'  task.id %}">
 
+
+                            <br>
+                    {% if task.important %}
+
+                        <strong> {{task.title}} </strong>
+                        
+                        <br>
+
+                        <p> {{task.describe}} </p>
+
+                    {% else %}
+
+
+                        <li>{{task.title}}</li>
+
+                    
+
+                        <p> {{ task.describe}}</p>
+
+                        
+
+                    {% endif %} 
+
+
+                </a>
+
+            </li>    
             
 
         {% endfor %}

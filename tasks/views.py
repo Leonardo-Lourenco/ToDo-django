@@ -1,5 +1,5 @@
 from http.client import ImproperConnectionState
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 # classe para formulários
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm # 1 serve para criar user o outro para logar
 from django.contrib.auth.models import User
@@ -55,7 +55,7 @@ def sigup(request):
 # Exibir as Tarefas  
 def tasks(request):
     # tasks = Task.objects.all()  neste exemplo pegas as tarefas de todos os usuários
-    tasks = Task.objects.filter(user=request.user) # pega a tarefa do usuário logado
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True) # pega a tarefa do usuário logado
     return render(request, 'tasks.html', { 'tasks' : tasks })
 
 # Para sair
@@ -111,5 +111,8 @@ def criando_tarefa(request):
              })
         
            
-          
+ # Detalhes tarefas
+def task_detalhe(request, task_id): 
+    task = get_object_or_404(Task, pk=task_id)  # tenho que importar o get_object_or_404 serve para so ids das tarefas
+    return render(request,'task_detalhe.html', {'task': task})     
     
