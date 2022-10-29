@@ -4,5 +4,20 @@
 
     <h1> Detalhes das Tarefas  </h1>
 
+    {{error}}
+
+    <form action="#" method="POST">
+
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <button>
+
+            Atualizar
+
+         </button>
+
+    </form>
+
 
 {% endblock %}

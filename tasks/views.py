@@ -113,6 +113,21 @@ def criando_tarefa(request):
            
  # Detalhes tarefas
 def task_detalhe(request, task_id): 
-    task = get_object_or_404(Task, pk=task_id)  # tenho que importar o get_object_or_404 serve para so ids das tarefas
-    return render(request,'task_detalhe.html', {'task': task})     
-    
+
+    if request.method == 'GET':
+        task = get_object_or_404(Task, pk=task_id, user=request.user)  # tenho que importar o get_object_or_404 serve para so ids das tarefas
+        form = TaskForm(instance=task)
+        return render(request,'task_detalhe.html', {'task': task, 'form': form}) 
+
+    else:
+        
+        try: 
+
+            
+            form = TaskForm(request.POST, instance=task)
+            form.save()
+            return redirect('tasks')
+
+        except ValueError:
+            return render(request,'task_detalhe.html', {'task': task, 'form': form,
+            'error': "Erro ao atualizar a tarefa"}) 
