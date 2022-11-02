@@ -4,18 +4,48 @@
 {% block content %}
 
 
-    <h1> Logar </h1>
+    
 
 
-    {{ error }}
-    <form action="/sigup/" method="POST">
-        
-        {% csrf_token %}
-        {{ form.as_p }}
+    <main class="container mt-5">
 
-        <button> Logar </button>
+        <div class="row">
 
-    </form>   
+            <div class="col-md-5 offset-md-3">
+
+                    <form  method="POST" class="card card-body">
+                        <h1 class="text-center"> Cadastrar </h1>
+                        {{ error }}
+                        {% csrf_token %}
+
+                        
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nome</label>
+                                <input type="text" name="username" class="form-control">
+                            
+
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="password1" class="form-label">Senha</label>
+                                <input type="password" name="password1" class="form-control" id="password1">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password2" class="form-label">Confirmar Senha</label>
+                                <input type="password" class="form-control" name="password2" id="password2">
+                            </div>
+                        
+                            <button type="submit" class="btn btn-primary"> Cadastrar</button>
+                        
+
+                
+                    </form>   
+                </div>           
+            </div>    
+    
+    </main>
 
 {% endblock %}
 

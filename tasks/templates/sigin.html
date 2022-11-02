@@ -3,19 +3,40 @@
 
 {% block content %}
 
-    <h1> SigIN </h1>
+    <main class="container mt-5">
 
-    {{ error }}
+        <div class="row">
 
-    <form action="/sigin/" method="POST">
+            <div class="col-md-5 offset-md-3">
 
-         {% csrf_token %}
-         {{ form.as_p }}
+                    <form  action="/sigin/" method="POST" class="card card-body">
+                        <h1 class="text-center"> Logar </h1>
+                        {{ error }}
+                        {% csrf_token %}
 
-         <button>
-            Logar
-         </button>
+                        
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nome</label>
+                                <input type="text" name="username" class="form-control">
+                        
+                            </div>
 
-    </form>     
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Senha</label>
+                                <input type="password" name="password" class="form-control" id="password">
+                            </div>
+
+                            
+                        
+                            <button type="submit" class="btn btn-primary"> Logar </button>
+                        
+
+                
+                    </form>   
+                </div>           
+            </div>    
+    
+    </main>
 
 {% endblock %}

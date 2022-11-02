@@ -21,10 +21,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('sigup/', views.sigup, name='sigup'),
-    path('tasks/', views.tasks, name='tasks'),
     path('sair/', views.sair, name='sair'),
     path('sigin/', views.sigin, name='sigin'),
+    path('tasks/', views.tasks, name='tasks'),
     path('criando/tarefa/', views.criando_tarefa, name='criando_tarefa'),
     path('criando/<int:task_id>/', views.task_detalhe, name='task_detalhe'), # Faz parte do template task_detalhe.html
-    
+    path('criando/<int:task_id>/complete', views.complete_tarefa, name='complete_tarefa'), # Completar tarefa
+    path('criando/<int:task_id>/delete', views.deletar_tarefa, name='deletar_tarefa'), # Deletar Tarefa
+    path('exibir_tarefas_completadas', views.exibir_tarefas_completadas, name='exibir_tarefas_completadas'), # Para Listar todas as tarefas que marqui como completa
 ]

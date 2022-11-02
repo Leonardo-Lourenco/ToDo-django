@@ -1,9 +1,8 @@
-from http.client import ImproperConnectionState
+from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404
 # classe para formulários
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm # 1 serve para criar user o outro para logar
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 # para verificar se o user está com a senha correta
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
@@ -11,7 +10,8 @@ from django.db import IntegrityError
 from .forms import TaskForm
 # importando o Task base de dados lá do models.py
 from .models import Task
-
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 
 # Home do Projeto.
@@ -51,14 +51,16 @@ def sigup(request):
                     "error": 'senhas são diferentes'
                     
                     } ) 
-
+@login_required
 # Exibir as Tarefas  
 def tasks(request):
     # tasks = Task.objects.all()  neste exemplo pegas as tarefas de todos os usuários
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True) # pega a tarefa do usuário logado
     return render(request, 'tasks.html', { 'tasks' : tasks })
 
+
 # Para sair
+@login_required
 def sair(request):
     logout (request)  # OBS: logout , importei lá no inicio
     return redirect('home')
@@ -86,6 +88,7 @@ def sigin(request):
 
 
  # Criando as Tarefas
+@login_required
 def criando_tarefa(request):
 
     if request.method == 'GET':
@@ -112,6 +115,7 @@ def criando_tarefa(request):
         
            
  # Detalhes tarefas
+@login_required
 def task_detalhe(request, task_id): 
 
     if request.method == 'GET':
@@ -119,11 +123,9 @@ def task_detalhe(request, task_id):
         form = TaskForm(instance=task)
         return render(request,'task_detalhe.html', {'task': task, 'form': form}) 
 
-    else:
-        
+    else:  
         try: 
-
-            
+            task = get_object_or_404(Task, pk=task_id, user=request.user)
             form = TaskForm(request.POST, instance=task)
             form.save()
             return redirect('tasks')
@@ -131,3 +133,34 @@ def task_detalhe(request, task_id):
         except ValueError:
             return render(request,'task_detalhe.html', {'task': task, 'form': form,
             'error': "Erro ao atualizar a tarefa"}) 
+
+
+
+ # Completar tarefas
+@login_required
+def complete_tarefa(request, task_id):
+    task = get_object_or_404(Task, pk=task_id, user=request.user)
+
+    if request.method == 'POST':
+        task.datecompleted = timezone.now()
+        task.save()
+        return redirect('tasks')
+
+
+
+ # Deletar tarefas
+@login_required
+def deletar_tarefa(request, task_id):
+    task = get_object_or_404(Task, pk=task_id, user=request.user)
+    if request.method == 'POST':
+        task.delete()
+        return redirect('tasks')
+
+
+ # Exibir as Tarefas marcadas com COMPLETA
+@login_required
+def exibir_tarefas_completadas(request):
+    # tasks = Task.objects.all()  neste exemplo pegas as tarefas de todos os usuários
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False).order_by # pega a tarefa do usuário logado
+    ('-datecompleted') # Ordenar a exibição das Tarefas
+    return render(request, 'tasks.html', { 'tasks' : tasks })
