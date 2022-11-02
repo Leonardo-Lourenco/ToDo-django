@@ -4,47 +4,51 @@
 
 {% block content %}
 
-    <h1> Tarefas Pendentes</h1>
+    <main class="container mt-5">
 
-    <ul>
+        <div class="row">
 
-        {% for task in tasks %}
-           
-            <li>
-                
-                <a href="{% url 'task_detalhe'  task.id %}">
+            <div class="col-md-5 offset-md-3 mb-3">
 
+                    <h1 class="text-center "> Tarefas Pendentes</h1>
 
-                            <br>
-                    {% if task.important %}
+                    <ul class="list-group">
 
-                        <strong> {{task.title}} </strong>
+                        {% for task in tasks %}
                         
-                        <br>
+                            <a class="list-group-item" href="{% url 'task_detalhe'  task.id %}">
+                                
+                                <header class="d-flex justify-content-between">
+                                       
+                                    {% if task.important %}
 
-                        <p> {{task.describe}} </p>
-
-                    {% else %}
-
-
-                        <li>{{task.title}}</li>
-
-                    
-
-                        <p> {{ task.describe}}</p>
-
-                    
-
-                    {% endif %} 
+                                        <strong class="fw-bold text-success"> {{task.title}} </strong>
+                                        
+                                    
+                                    {% else %}
 
 
-                </a>
+                                        <p class="fw-bold">{{task.title}}</p>
 
-            </li>    
-            
+                                                               
 
-        {% endfor %}
+                                    {% endif %} 
 
-    </ul>
+                                    <p>By: {{ task.user.username }}</p>
+
+                                </header>    
+              
+
+                            </a>    
+                            
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>           
+            </div>    
+
+        </main>            
 
 {% endblock %}
