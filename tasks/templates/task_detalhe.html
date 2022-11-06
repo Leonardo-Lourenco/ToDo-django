@@ -2,49 +2,58 @@
 
 {% block content %}
 
-    <h1> Detalhes das Tarefas  </h1>
+<main class="container mt-5">
 
-    {{error}}
+    <div class="row">
 
-    <form action="#" method="POST">
+        <div class="col-md-5 offset-md-3">
 
-        {% csrf_token %}
-        {{form.as_p}}
+                <h1 class="text-center"> Detalhes das Tarefas  </h1>
 
-        <button>
+                {{error}}
 
-            Atualizar
+                <form action="#" method="POST" class="card card-body">
 
-         </button>
+                    {% csrf_token %}
+                    {{form.as_p}}
 
-    </form>
+                    <button type="submit" class="btn btn-primary mt-2"> Atualizar </button>
 
-
-    <form action="{% url 'complete_tarefa' task.id %}" method="POST">
-
-        {% csrf_token %}
-
-        <button>
-
-            Completar
-
-         </button>
-    
-    </form>
+                </form>
 
 
+                <div class="mt-5 d-flex">
 
-    <form action="{% url 'deletar_tarefa' task.id %}" method="POST">
 
-        {% csrf_token %}
+                    <form action="{% url 'complete_tarefa' task.id %}" method="POST" >
 
-        <button>
+                        {% csrf_token %}
 
-            Deletar
+                        <button type="submit" class="btn btn-success"> Completar </button>
+                    
+                    </form>
 
-         </button>
-    
-    </form>
+
+
+                    <form action="{% url 'deletar_tarefa' task.id %}" method="POST">
+
+                        {% csrf_token %}
+
+                        <button type="submit" class="btn btn-danger "> Deletar </button>
+                
+                    
+                    </form>
+
+                </div>
+
+            </div>           
+        </div>    
+</main>         
+
+
+</br>
+</br>
+</br>
 
 
 
