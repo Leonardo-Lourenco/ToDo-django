@@ -14,12 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from tasks import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    #path('', views.home, name='home'),
     path('sigup/', views.sigup, name='sigup'),
     path('sair/', views.sair, name='sair'),
     path('sigin/', views.sigin, name='sigin'),
@@ -29,4 +29,6 @@ urlpatterns = [
     path('criando/<int:task_id>/complete', views.complete_tarefa, name='complete_tarefa'), # Completar tarefa
     path('criando/<int:task_id>/delete', views.deletar_tarefa, name='deletar_tarefa'), # Deletar Tarefa
     path('exibir_tarefas_completadas', views.exibir_tarefas_completadas, name='exibir_tarefas_completadas'), # Para Listar todas as tarefas que marqui como completa
+    path('', include('blog.urls')),
+    
 ]
